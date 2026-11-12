@@ -1,0 +1,18 @@
+---
+# Local dev-server config — not uploaded to TRMNL
+watch:
+  - src
+  - .trmnlp.yml
+
+time_zone: Europe/Vienna
+
+# Preset values so every option can be tried locally without typing them in TRMNL.
+# Other gyms to try:
+#   country: ch / gym_ch: 35038da4-2259-4108-bff3-eaf24203c6af  (Geneva Green Village)
+#   country: de / gym_de: 13cbafa0-8b29-4aa8-bed7-34e972caa165  (Alexanderplatz, live data only)
+custom_fields:
+  country: "at"
+  gym_at: "ba765872-0969-4eeb-9a24-5384d78c97b1"
+  gym_de: ""
+  gym_ch: ""
+  language: "de"

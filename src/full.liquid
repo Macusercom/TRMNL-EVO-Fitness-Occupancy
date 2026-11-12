@@ -1,0 +1,57 @@
+<div class="layout layout--col gap--medium">
+  {% if has_live == false %}
+    {% render "evo_notice", glyph: "!", title: notice_title, sub: notice_sub %}
+  {% else %}
+    <div class="grid grid--cols-5 gap--large stretch-x">
+      <div class="col--span-2 flex flex--col gap--small">
+        <span class="label">{{ t_now }}</span>
+        <span class="value value--xxxlarge lg:value--mega value--tnums">{{ live_pct }}%</span>
+        <span class="title">{{ status }}</span>
+        <div class="progress-bar progress-bar--large stretch-x">
+          <div class="content">
+            <span class="label">{{ live_now }} / {{ live_cap }} {{ t_people }}</span>
+          </div>
+          <div class="track">
+            <div class="fill" style="width: {{ bar_pct }}%"></div>
+          </div>
+        </div>
+        {% if best_name != "" %}
+          <div class="item mt--2">
+            <div class="meta"></div>
+            <div class="content">
+              <span class="label label--small">{{ t_best }}</span>
+              <span class="title title--small">{{ best_label }}</span>
+            </div>
+          </div>
+        {% endif %}
+        {% if peak_name != "" %}
+          <div class="item">
+            <div class="meta"></div>
+            <div class="content">
+              <span class="label label--small">{{ t_peak }} ({{ t_today }})</span>
+              <span class="title title--small">{{ peak_label }}</span>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="col--span-3 flex flex--col gap--small">
+        {% if today_ok %}
+          <div class="flex flex--row flex--center-y flex--between stretch-x">
+            <span class="title title--small">{{ t_today }}</span>
+            {% render "evo_legend", t_actual: t_actual, t_forecast: t_forecast %}
+          </div>
+          {% render "evo_chart", intervals: today, t_now_short: t_now_short, height: 140, compact: false %}
+          {% if tomorrow_ok %}
+            <span class="title title--small mt--2">{{ t_tomorrow }} · {{ t_forecast }}</span>
+            {% render "evo_chart", intervals: tomorrow, t_now_short: t_now_short, height: 70, compact: false %}
+          {% endif %}
+        {% else %}
+          {% render "evo_notice", glyph: "–", title: t_no_history, sub: nil %}
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+{% render "evo_title_bar", icon: title_bar_icon, title: gym_name, instance: t_instance %}

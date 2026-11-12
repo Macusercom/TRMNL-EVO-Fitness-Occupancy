@@ -1,0 +1,205 @@
+{% assign title_bar_icon = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAQAAAAAYLlVAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAACYktHRAD/h4/MvwAAAAd0SU1FB+oLDA4HKDZnD9oAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjYtMTEtMTJUMTQ6MDc6NDArMDA6MDD3zvcvAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDI2LTExLTEyVDE0OjA3OjQwKzAwOjAwhpNPkwAAACh0RVh0ZGF0ZTp0aW1lc3RhbXAAMjAyNi0xMS0xMlQxNDowNzo0MCswMDowMNGGbkwAAAIqSURBVGje7ZgxTxRBGIYf7g4unGc0hJNgAiRGk8OKgoRI6I38ABoTYmNjS2EFiY2G+AcsbOwobDWxARJsiYaCACECFnKRuJJ4F3MLt0Ozcs7N3szt3hzXzLPd7Hzv9+7sNzszCw6Hw+FwOLpMj7FHlkHSAFQ5IWhJdYA8AILflNsz8IAFJugFoMIqrzkyRFznGXMMAhBwyBveU0s6PnfYQkjXCjlDzHMCKcLjYdL08LQhvcBjUhsxwKYS81Y3zimt3G2lJU9BG5EPB19WySQ1YC7RtpG99VIgAwg8KpYzNdH+38BdFpmmDwjYZZk1hKXkQYR2hMN3Uul84RZLSkH5PNKmGuVIiflITtEe/hdQr4EC05JUkWKLnx0TIkJ7XDWQoU/qlCZr6RWISG3FQJeIb6DWxt0IMjH7p5hnKlycVAQ3udFZA2kex31G0xN1GWfAGYg7CwSb/NQs0/1M0d9JA+e84EPTqIAx1hnppAE4R3CmvRuL+DVgeZdUNyAaFl9haTGO1r5cM+oGPHalTiUOLM2RVKR2SL0GKiwzRJE0ICjxim/WJukfRXtfNQBrzDJOFqhxwD723ndK0b4sVXkWHHNsKaVKE+2r+BJqx1Fv4FRp8Q2n3WrEeeJUt0/SG9ig1NDylW1txAmrDS01PiWf0D08YYe/+Pj4lPnMjDFmjBW8MKLKD15yTZ/CxCj3wk11mW1+tWA7x/3wCBvwnb3kfwccDofD4XBcCRdIq8U93/XcfwAAAABJRU5ErkJggg==" %}
+
+{% comment %} ---------- settings ---------- {% endcomment %}
+{% assign cfv = trmnl.plugin_settings.custom_fields_values %}
+{% assign lang = cfv.language | default: "de" %}
+{% assign country = cfv.country | default: "at" %}
+{% assign gym_id = cfv.gym_at | default: "" %}
+{% if country == "de" %}{% assign gym_id = cfv.gym_de | default: "" %}{% elsif country == "ch" %}{% assign gym_id = cfv.gym_ch | default: "" %}{% endif %}
+
+{% comment %} ---------- texts ---------- {% endcomment %}
+{% if lang == "en" %}
+  {% assign t_now = "Right now" %}
+  {% assign t_now_short = "now" %}
+  {% assign t_people = "people" %}
+  {% assign t_today = "Today" %}
+  {% assign t_tomorrow = "Tomorrow" %}
+  {% assign t_actual = "actual" %}
+  {% assign t_forecast = "forecast" %}
+  {% assign t_best = "Quietest" %}
+  {% assign t_peak = "Busiest" %}
+  {% assign t_s1 = "Quiet" %}
+  {% assign t_s2 = "Moderate" %}
+  {% assign t_s3 = "Busy" %}
+  {% assign t_s4 = "Very busy" %}
+  {% assign t_select = "Select a gym" %}
+  {% assign t_select_sub = "Choose your country and gym in the plugin settings" %}
+  {% assign t_error = "No data" %}
+  {% assign t_error_sub = "EVO Fitness did not return occupancy data" %}
+  {% assign t_no_history = "No time-slot data available for this gym" %}
+  {% assign t_updated = "Updated" %}
+{% elsif lang == "fr" %}
+  {% assign t_now = "En ce moment" %}
+  {% assign t_now_short = "actuel" %}
+  {% assign t_people = "personnes" %}
+  {% assign t_today = "Aujourd'hui" %}
+  {% assign t_tomorrow = "Demain" %}
+  {% assign t_actual = "réel" %}
+  {% assign t_forecast = "prévision" %}
+  {% assign t_best = "Le plus calme" %}
+  {% assign t_peak = "Le plus fréquenté" %}
+  {% assign t_s1 = "Calme" %}
+  {% assign t_s2 = "Modéré" %}
+  {% assign t_s3 = "Fréquenté" %}
+  {% assign t_s4 = "Très fréquenté" %}
+  {% assign t_select = "Choisir un club" %}
+  {% assign t_select_sub = "Sélectionnez le pays et le club dans les réglages du plugin" %}
+  {% assign t_error = "Pas de données" %}
+  {% assign t_error_sub = "EVO Fitness n'a pas fourni de données de fréquentation" %}
+  {% assign t_no_history = "Pas de données par créneau pour ce club" %}
+  {% assign t_updated = "Mis à jour" %}
+{% else %}
+  {% assign t_now = "Aktuell" %}
+  {% assign t_now_short = "jetzt" %}
+  {% assign t_people = "Personen" %}
+  {% assign t_today = "Heute" %}
+  {% assign t_tomorrow = "Morgen" %}
+  {% assign t_actual = "gemessen" %}
+  {% assign t_forecast = "Prognose" %}
+  {% assign t_best = "Am ruhigsten" %}
+  {% assign t_peak = "Am vollsten" %}
+  {% assign t_s1 = "Ruhig" %}
+  {% assign t_s2 = "Mäßig besucht" %}
+  {% assign t_s3 = "Gut besucht" %}
+  {% assign t_s4 = "Sehr voll" %}
+  {% assign t_select = "Studio auswählen" %}
+  {% assign t_select_sub = "Land und Studio in den Plugin-Einstellungen wählen" %}
+  {% assign t_error = "Keine Daten" %}
+  {% assign t_error_sub = "EVO Fitness hat keine Auslastungsdaten geliefert" %}
+  {% assign t_no_history = "Für dieses Studio gibt es keine Zeitfenster-Daten" %}
+  {% assign t_updated = "Stand" %}
+{% endif %}
+
+{% comment %} ---------- live occupancy (IDX_0 = /current) ---------- {% endcomment %}
+{% assign has_live = false %}
+{% if IDX_0.current != nil %}{% assign has_live = true %}{% endif %}
+{% assign live_now = IDX_0.current | default: 0 | plus: 0 %}
+{% assign live_cap = IDX_0.max_capacity | default: 0 | plus: 0 %}
+{% assign live_pct = IDX_0.percentageUsed | default: 0 | round %}
+{% assign bar_pct = live_pct %}
+{% if bar_pct > 100 %}{% assign bar_pct = 100 %}{% endif %}
+{% assign gym_name = IDX_0.name | default: "EVO Fitness" | strip %}
+
+{% assign status = t_s1 %}
+{% if live_pct >= 85 %}{% assign status = t_s4 %}{% elsif live_pct >= 60 %}{% assign status = t_s3 %}{% elsif live_pct >= 35 %}{% assign status = t_s2 %}{% endif %}
+
+{% assign notice_title = t_error %}
+{% assign notice_sub = t_error_sub %}
+{% if gym_id == "" %}{% assign notice_title = t_select %}{% assign notice_sub = t_select_sub %}{% endif %}
+
+{% comment %} ---------- time slots (IDX_1 = today, IDX_2 = tomorrow) ----------
+  Values above 250 % mean EVO's slot data is broken for this gym (all German
+  gyms at the time of writing) - the charts are hidden then.
+{% endcomment %}
+{% assign today = IDX_1.intervals %}
+{% assign today_ok = false %}
+{% if today.size > 0 %}
+  {% assign today_ok = true %}
+  {% for iv in today %}{% if iv.percentageUsed > 250 %}{% assign today_ok = false %}{% endif %}{% endfor %}
+{% endif %}
+
+{% assign tomorrow = IDX_2.intervals %}
+{% assign tomorrow_ok = false %}
+{% if tomorrow.size > 0 %}
+  {% assign tomorrow_ok = true %}
+  {% for iv in tomorrow %}{% if iv.percentageUsed > 250 %}{% assign tomorrow_ok = false %}{% endif %}{% endfor %}
+{% endif %}
+
+{% comment %} quietest slot still ahead (a forecast of 0 means "unknown" at EVO) {% endcomment %}
+{% assign best_pct = 999 %}
+{% assign best_name = "" %}
+{% assign best_is_tomorrow = false %}
+{% assign peak_pct = -1 %}
+{% assign peak_name = "" %}
+{% if today_ok %}
+  {% for iv in today %}
+    {% assign p = iv.percentageUsed | round %}
+    {% if iv.status == "future" and p > 0 and p < best_pct %}
+      {% assign best_pct = p %}{% assign best_name = iv.name %}
+    {% endif %}
+    {% if iv.status != "current" and p > peak_pct %}
+      {% assign peak_pct = p %}{% assign peak_name = iv.name %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+{% if best_name == "" and tomorrow_ok %}
+  {% for iv in tomorrow %}
+    {% assign p = iv.percentageUsed | round %}
+    {% if p > 0 and p < best_pct %}
+      {% assign best_pct = p %}{% assign best_name = iv.name %}{% assign best_is_tomorrow = true %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+{% assign best_label = best_name | replace: "-", "–" %}
+{% if best_is_tomorrow %}{% assign best_label = t_tomorrow | append: " " | append: best_label %}{% endif %}
+{% assign peak_label = peak_name | replace: "-", "–" %}
+
+{% assign updated = "now" | date: "%s" | plus: trmnl.user.utc_offset | date: "%H:%M" %}
+{% assign t_instance = "EVO Fitness · " | append: t_updated | append: " " | append: updated %}
+
+<style>
+  .evo-chart { display: flex; align-items: flex-end; gap: 6px; width: 100%; }
+  .evo-col { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .evo-track { width: 100%; display: flex; align-items: flex-end; justify-content: center; border-bottom: 2px solid #000; }
+  .evo-fill { width: 100%; box-sizing: border-box; border: 2px solid #000; border-bottom: 0; }
+  .evo-h-70 { height: 70px; } .evo-h-90 { height: 90px; } .evo-h-120 { height: 120px; } .evo-h-140 { height: 140px; }
+  /* larger screens (TRMNL X): taller charts so the extra height is used */
+  .screen--lg .evo-h-70 { height: 130px; } .screen--lg .evo-h-90 { height: 170px; }
+  .screen--lg .evo-h-120 { height: 230px; } .screen--lg .evo-h-140 { height: 260px; }
+  .evo-key { display: inline-block; width: 12px; height: 12px; box-sizing: border-box; border: 2px solid #000; }
+</style>
+
+{% comment %} Bar chart of six time slots. Bars are relative indicators without
+  numbers: EVO's slot figures run well above the live percentage for the same
+  period, so they are not printed next to it. The running slot is only marked,
+  as its figure is not comparable to finished slots. {% endcomment %}
+{% template evo_chart %}
+{% comment %} full height = 100 %, or the busiest slot when a gym runs above 100 % {% endcomment %}
+{% assign scale = 100 %}
+{% for iv in intervals %}
+  {% assign p = iv.percentageUsed | round %}
+  {% if iv.status != "current" and p > scale %}{% assign scale = p %}{% endif %}
+{% endfor %}
+<div class="evo-chart">
+  {% for iv in intervals %}
+    {% assign h = iv.percentageUsed | times: 100 | divided_by: scale | round %}
+    {% if h > 100 %}{% assign h = 100 %}{% endif %}
+    {% if h < 2 %}{% assign h = 2 %}{% endif %}
+    {% assign shade = "bg--black" %}
+    {% if iv.status == "future" %}{% assign shade = "bg--gray-60" %}{% endif %}
+    <div class="evo-col">
+      <div class="evo-track evo-h-{{ height }}">
+        {% if iv.status == "current" %}
+          <span class="label label--small label--underline evo-now">{{ t_now_short }}</span>
+        {% else %}
+          <div class="evo-fill {{ shade }}" style="height: {{ h }}%"></div>
+        {% endif %}
+      </div>
+      <span class="label label--small">{% if compact %}{{ iv.name | slice: 0, 2 }}{% else %}{{ iv.name | replace: "-", "–" }}{% endif %}</span>
+    </div>
+  {% endfor %}
+</div>
+{% endtemplate %}
+
+{% template evo_legend %}
+<div class="flex flex--row flex--center-y gap--small">
+  <span class="evo-key bg--black"></span><span class="label label--small">{{ t_actual }}</span>
+  <span class="evo-key bg--gray-60"></span><span class="label label--small">{{ t_forecast }}</span>
+</div>
+{% endtemplate %}
+
+{% template evo_notice %}
+<div class="flex flex--col flex--center flex--center-x gap stretch-x">
+  <span class="value value--xxlarge">{{ glyph }}</span>
+  <span class="label label--large">{{ title }}</span>
+  {% if sub %}<span class="label label--small">{{ sub }}</span>{% endif %}
+</div>
+{% endtemplate %}
+
+{% template evo_title_bar %}
+<div class="title_bar">
+  <img class="image" src="{{ icon }}">
+  <span class="title">{{ title }}</span>
+  <span class="instance">{{ instance }}</span>
+</div>
+{% endtemplate %}

@@ -1,0 +1,21 @@
+<div class="layout layout--col gap--xsmall">
+  {% if has_live == false %}
+    <div class="flex flex--col flex--center flex--center-x gap--small stretch-x">
+      <span class="value value--large">!</span>
+      <span class="label">{{ notice_title }}</span>
+    </div>
+  {% else %}
+    <div class="flex flex--row flex--center-y gap stretch-x">
+      <span class="value value--xxlarge value--tnums">{{ live_pct }}%</span>
+      <div class="flex flex--col">
+        <span class="title title--small">{{ status }}</span>
+        <span class="label label--small">{{ live_now }} / {{ live_cap }} {{ t_people }}</span>
+      </div>
+    </div>
+    {% if best_name != "" %}
+      <span class="label label--small">{{ t_best }}: {{ best_label }}</span>
+    {% endif %}
+  {% endif %}
+</div>
+
+{% render "evo_title_bar", icon: title_bar_icon, title: gym_name, instance: updated %}

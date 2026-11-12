@@ -1,0 +1,124 @@
+---
+strategy: polling
+no_screen_padding: 'no'
+dark_mode: 'no'
+static_data: ''
+polling_verb: get
+framework_version:
+serverless_language:
+refresh_interval_floor:
+polling_url: |-
+  {%- assign gym = gym_at -%}{%- if country == "de" -%}{%- assign gym = gym_de -%}{%- elsif country == "ch" -%}{%- assign gym = gym_ch -%}{%- endif -%}
+  {%- assign off = trmnl.user.utc_offset | default: 3600 -%}
+  {%- assign tomorrow = "now" | date: "%s" | plus: off | plus: 86400 | date: "%Y-%m-%d" -%}
+  https://visits.evofitness.at/api/v1/locations/{{ gym }}/current
+  https://visits.evofitness.at/api/v1/locations/{{ gym }}/timeline
+  https://visits.evofitness.at/api/v1/locations/{{ gym }}/timeline?date={{ tomorrow }}
+polling_headers:
+polling_body:
+id: 538821
+oauth_enabled: 'false'
+oauth_pkce_enabled: 'no'
+custom_fields:
+- keyname: about
+  name: About This Plugin
+  field_type: author_bio
+  category: sports,life
+  description: 'Shows how busy your EVO Fitness gym is right now: live headcount, today''s occupancy per time slot, the quietest slot still ahead and tomorrow''s forecast. Works for EVO gyms in Austria, Germany and Switzerland (German gyms: live occupancy only, EVO publishes no usable time-slot data for them).<br/><br/>To show several gyms on one screen, add the plugin once per gym and combine the instances in a Mashup.<br/><br/>Unofficial plugin by Christoph (<a href="https://github.com/Macusercom" target="_blank">Macusercom</a>), not affiliated with EVO Fitness. Data from EVO''s public occupancy pages, e.g. <a href="https://visits.evofitness.at" target="_blank">visits.evofitness.at</a>.'
+  github_url: https://github.com/Macusercom/TRMNL-EVO-Fitness-Occupancy
+  learn_more_url: https://visits.evofitness.at
+- keyname: country
+  field_type: select
+  name: Country
+  description: Country of your EVO Fitness gym
+  default: at
+  options:
+  - Austria: at
+  - Germany: de
+  - Switzerland: ch
+  conditional_validation:
+  - when: at
+    visible:
+    - gym_at
+    required:
+    - gym_at
+  - when: de
+    visible:
+    - gym_de
+    required:
+    - gym_de
+  - when: ch
+    visible:
+    - gym_ch
+    required:
+    - gym_ch
+- keyname: gym_at
+  field_type: select
+  name: Gym (Austria)
+  description: Your EVO Fitness gym in Austria
+  optional: true
+  options:
+  - EVO Bel & Main: e2e53529-fea4-449b-9488-fff4188f1a2f
+  - EVO Berggasse: fe69d0f8-0220-4e55-8831-3cf12df56537
+  - EVO Bruno-Marek-Allee: ba765872-0969-4eeb-9a24-5384d78c97b1
+  - EVO Franz-Josefs-Bahnhof: e7b326e3-87e5-43a4-ad03-f10197721c46
+  - EVO Graz Hans-Sachs-Gasse: df9539b6-4973-4f0f-9051-93ad5e75928d
+  - EVO Linzer Straße: d4b6c877-9990-44c3-bd08-34c2142503a9
+  - EVO Mariahilfer Straße: 380f8361-b28c-4d49-a9f7-5e9583cb7193
+  - EVO Modecenterstraße: fdd68a36-785f-491b-977d-dfe365ea2f6e
+  - EVO Praterstraße: 3aa05c42-a03d-4cb0-82ba-8d4fad3a5494
+  - EVO Schleifmühlgasse: de01f4fd-9ad1-46cb-9c5d-d0ec4862cc13
+- keyname: gym_de
+  field_type: select
+  name: Gym (Germany)
+  description: Your EVO Fitness gym in Germany. EVO currently publishes no usable time-slot history for German gyms, so only the live occupancy is shown.
+  optional: true
+  options:
+  - EVO Alexanderplatz: 13cbafa0-8b29-4aa8-bed7-34e972caa165
+  - EVO Belgisches Viertel: a8d942fd-bb85-4d5e-93ff-d39079a3faed
+  - EVO Blankenese: f572429b-5a84-49b2-a9db-fedcb9180d40
+  - EVO Dern'sche Höfe: 365ee508-dba5-4a0e-aa1b-86a562041ef2
+  - EVO Ehrenstraße: 5e453983-ff5b-4a4d-a7cf-c8d2150515d0
+  - EVO Europacity: ded3c3c2-72f8-4f47-9534-5f852c55b9ab
+  - EVO Glockenbach: 2c9e7e87-2866-40aa-aa80-407f719337f4
+  - EVO LeFlair: b4a8da8e-5bdb-4716-96d6-4aa487d30710
+  - EVO Maxvorstadt: 969e93fa-3257-4f95-a05b-17bc844b590f
+  - EVO Ottensen: 64c38c35-2059-4c13-9855-a3b029338165
+  - EVO Prager Straße: 241526f6-05f8-4a91-a730-33c8422d4c70
+  - EVO Rosenthaler Platz: 16e3778e-0535-4aa0-a355-0042e2951ccc
+  - EVO Schanze: 474e2585-338e-4377-a832-14dbd29a2dd9
+  - EVO Spittelmarkt: 367c314a-8c2c-4b1b-81e8-67488a2fbc25
+  - EVO Stadthausbrücke: a2a3f7b2-2f6b-4d57-9d7d-be66a04c66c0
+  - EVO Unterbilk: ef41f8ff-4cdd-479f-963c-5f30e998841d
+- keyname: gym_ch
+  field_type: select
+  name: Gym (Switzerland)
+  description: Your EVO Fitness gym in Switzerland
+  optional: true
+  options:
+  - EVO Basel Gundeli: cc3013fa-9f58-4056-8731-40ed4058663a
+  - EVO Basel Steinenvorstadt: 91aa317c-5c31-4083-a05e-a5b0a7583d48
+  - EVO Bern: 2cb1ea28-3c35-4eac-839e-694053f5a7fd
+  - EVO Geneva Acacias: 044f593f-8976-48f5-a76e-b44f7cb0e95a
+  - EVO Geneva Champel: cbaae535-1739-42e0-97e7-9e6c5cea5614
+  - EVO Geneva Eaux-Vives CEVA: '017869cb-dcd5-4e44-9294-b591c96fd82a'
+  - EVO Geneva Green Village: 35038da4-2259-4108-bff3-eaf24203c6af
+  - EVO Geneva Jonction: 355e38ff-2f65-40ac-a7ba-0ac811268938
+  - EVO Luzern: e0e82e87-239e-4015-a875-3f72d9d11292
+  - EVO Zurich Dubendorf: b6747f9d-880b-4f34-a6d4-6aaf6aaaf234
+  - EVO Zurich Enge: 6c13f942-01dc-4141-8b0b-328291cc97ca
+  - EVO Zurich Oerlikon: bd633881-12b4-4bfa-8cf7-059153be5b77
+  - EVO Zurich Schaffhauserstrasse: 1a837b90-213c-47f1-a614-1d30f57a4948
+  - EVO Zurich Wiedikon: 6783ea46-fcb6-4e21-ad2c-54a00d5e15ec
+- keyname: language
+  field_type: select
+  name: Language
+  description: Language of the text on the display
+  default: de
+  options:
+  - Deutsch: de
+  - English: en
+  - Français: fr
+name: EVO Fitness Occupancy
+description: Live occupancy of your EVO gym
+refresh_interval: 15

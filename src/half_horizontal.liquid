@@ -1,0 +1,25 @@
+<div class="layout layout--col gap--small">
+  {% if has_live == false %}
+    {% render "evo_notice", glyph: "!", title: notice_title, sub: notice_sub %}
+  {% else %}
+    <div class="grid grid--cols-5 gap--large stretch-x">
+      <div class="col--span-2 flex flex--col gap--xsmall">
+        <span class="value value--xxlarge value--tnums">{{ live_pct }}%</span>
+        <span class="title title--small">{{ status }}</span>
+        <span class="label label--small">{{ live_now }} / {{ live_cap }} {{ t_people }}</span>
+        {% if best_name != "" %}
+          <span class="label label--small">{{ t_best }}: {{ best_label }}</span>
+        {% endif %}
+      </div>
+      <div class="col--span-3 flex flex--col gap--xsmall">
+        {% if today_ok %}
+          {% render "evo_chart", intervals: today, t_now_short: t_now_short, height: 90, compact: false %}
+        {% else %}
+          <span class="label label--small">{{ t_no_history }}</span>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+{% render "evo_title_bar", icon: title_bar_icon, title: gym_name, instance: t_instance %}
