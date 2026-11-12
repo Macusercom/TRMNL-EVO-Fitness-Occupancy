@@ -6,9 +6,9 @@
       <div class="col--span-2 flex flex--col gap--xsmall">
         <span class="value value--xxlarge value--tnums">{{ live_pct }}%</span>
         <span class="title title--small">{{ status }}</span>
-        <span class="label label--small">{{ live_now }} / {{ live_cap }} {{ t_people }}</span>
+        <span class="label label--small lg:label--large">{{ live_now }} / {{ live_cap }} {{ t_people }}</span>
         {% if best_name != "" %}
-          <span class="label label--small">{{ t_best }}: {{ best_label }}</span>
+          <span class="label label--small lg:label--large">{{ t_best }}: {{ best_label }}</span>
         {% endif %}
       </div>
       <div class="col--span-3 flex flex--col gap--xsmall">

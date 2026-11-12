@@ -5,7 +5,7 @@
       <span class="label">{{ notice_title }}</span>
     </div>
   {% else %}
-    <div class="flex flex--row flex--center-y gap stretch-x">
+    <div class="flex flex--row lg:portrait:flex--col flex--center-y gap stretch-x">
       <span class="value value--xxlarge value--tnums">{{ live_pct }}%</span>
       <div class="flex flex--col">
         <span class="title title--small">{{ status }}</span>
@@ -13,8 +13,9 @@
       </div>
     </div>
     {% if best_name != "" %}
-      <span class="label label--small">{{ t_best }}: {{ best_label }}</span>
+      <span class="label label--small lg:label--large">{{ t_best }}: {{ best_label }}</span>
     {% endif %}
+    {% if today_ok %}<div class="hidden lg:visible w--full">{% render "evo_chart", intervals: today, t_now_short: t_now_short, track: 30, compact: true %}</div>{% endif %}
   {% endif %}
 </div>
 
