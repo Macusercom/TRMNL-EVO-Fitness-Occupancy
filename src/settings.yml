@@ -24,7 +24,7 @@ custom_fields:
   name: About This Plugin
   field_type: author_bio
   category: sports,life
-  description: 'Shows how busy your EVO Fitness gym is right now: live headcount, today''s occupancy per time slot, the quietest slot still ahead and tomorrow''s forecast. Works for EVO gyms in Austria, Germany and Switzerland (German gyms: live occupancy only, EVO publishes no usable time-slot data for them).<br/><br/>To show several gyms on one screen, add the plugin once per gym and combine the instances in a Mashup.<br/><br/>Unofficial plugin by Christoph (<a href="https://github.com/Macusercom" target="_blank">Macusercom</a>), not affiliated with EVO Fitness. Data from EVO''s public occupancy pages, e.g. <a href="https://visits.evofitness.at" target="_blank">visits.evofitness.at</a>.'
+  description: 'Shows how busy your EVO Fitness gym is right now: live headcount, today''s occupancy per time slot, the quietest slot still ahead and tomorrow''s forecast. Works for EVO gyms in Austria, Germany and Switzerland (German gyms: live occupancy only, EVO publishes no usable time-slot data for them).<br/><br/>To show several gyms on one screen, add the plugin once per gym and combine the instances in a Mashup.<br/><br/>Unofficial plugin by <a href="https://github.com/Macusercom" target="_blank">Macusercom</a>, not affiliated with EVO Fitness. Data from EVO''s public occupancy pages, e.g. <a href="https://visits.evofitness.at" target="_blank">visits.evofitness.at</a>.'
   github_url: https://github.com/Macusercom/TRMNL-EVO-Fitness-Occupancy
   learn_more_url: https://visits.evofitness.at
 - keyname: country
