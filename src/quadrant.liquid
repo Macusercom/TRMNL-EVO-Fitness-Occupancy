@@ -1,4 +1,4 @@
-<div class="layout layout--col gap--xsmall">
+<div class="layout layout--col gap--xsmall portrait:gap--medium lg:gap--medium">
   {% if has_live == false %}
     <div class="flex flex--col flex--center flex--center-x gap--small stretch-x">
       <span class="value value--large">!</span>
@@ -6,7 +6,7 @@
     </div>
   {% else %}
     <div class="flex flex--row lg:portrait:flex--col flex--center-y gap stretch-x">
-      <span class="value value--xxlarge value--tnums">{{ live_pct }}%</span>
+      <span class="value value--xlarge lg:value--xxlarge value--tnums">{{ live_pct }}%</span>
       <div class="flex flex--col">
         <span class="title title--small">{{ status }}</span>
         <span class="label label--small">{{ live_now }} / {{ live_cap }} {{ t_people }}</span>
@@ -15,7 +15,7 @@
     {% if best_name != "" %}
       <span class="label label--small lg:label--large">{{ t_best }}: {{ best_label }}</span>
     {% endif %}
-    {% if today_ok %}<div class="hidden lg:visible w--full">{% render "evo_chart", intervals: today, t_now_short: t_now_short, track: 30, compact: true %}</div>{% endif %}
+    {% if today_ok %}<div class="w--full portrait:mt--4 lg:mt--4">{% render "evo_chart", intervals: today, t_now_short: t_now_short, t_unit: t_unit, track: 22, track_p: 26, track_lg: 36, compact: true %}</div>{% endif %}
   {% endif %}
 </div>
 

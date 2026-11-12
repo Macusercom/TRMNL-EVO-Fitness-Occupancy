@@ -1,7 +1,7 @@
 <img src="images/icon.png" alt="icon" height="100">
 
 # TRMNL EVO Fitness Occupancy
-<img src="images/image1.png" alt="Image 1" width="400">
+<img src="images/image1.png" alt="TRMNL OG, full view" width="400"> <img src="images/image2.png" alt="TRMNL X, full view" width="400">
 
 A TRMNL plug-in that shows how busy your EVO Fitness gym is right now. It displays the live headcount, today's occupancy per time slot (measured values for past slots, forecast for upcoming ones), the quietest slot still ahead and tomorrow's forecast. Works for EVO gyms in Austria, Germany and Switzerland.
 
@@ -20,7 +20,7 @@ To show several gyms on one screen, add the plug-in once per gym and combine the
 ## Limitations
 
 - **German gyms show live occupancy only.** EVO's time-slot data for all German gyms is currently unusable (values of several thousand percent), so the charts are hidden. The plug-in detects this per gym, and the charts appear on their own once EVO's data is sane again.
-- The chart bars carry no numbers. EVO's time-slot figures run well above the live percentage for the same period (a slot reported as 58% had live readings around 20%), so the bars only show which slots are busier than others. The running slot is marked "now" without a bar.
+- The chart bars carry no numbers. EVO's figures for finished time slots run well above the live count for the same period (a slot reported as 61% had about 17 of 80 people counted live), so the bars only show which slots are busier than others. Each slot sits in an outlined box whose full height is 100%. The running slot is drawn at EVO's figure so far, which is close to the live count and therefore usually lower than its neighbours.
 - The data comes from an undocumented endpoint and may change without notice.
 
 ## Data source

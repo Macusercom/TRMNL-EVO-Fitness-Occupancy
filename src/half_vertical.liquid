@@ -1,4 +1,4 @@
-<div class="layout layout--col gap">
+<div class="layout layout--col gap portrait:gap--large lg:gap--large">
   {% if has_live == false %}
     {% render "evo_notice", glyph: "!", title: notice_title, sub: notice_sub %}
   {% else %}
@@ -8,15 +8,15 @@
       <span class="title title--small">{{ status }}</span>
       <span class="label label--small lg:label--large">{{ live_now }} / {{ live_cap }} {{ t_people }}</span>
       {% render "evo_meter", pct: bar_pct, width: 96 %}
+      {% if best_name != "" %}
+        <span class="label label--small lg:label--large mt--2">{{ t_best }}: {{ best_label }}</span>
+      {% endif %}
     </div>
     <div class="flex flex--col gap--xsmall stretch-x">
       {% if today_ok %}
         <span class="title title--small">{{ t_today }}</span>
-        {% render "evo_chart", intervals: today, t_now_short: t_now_short, track: 26, compact: true %}
-        {% if best_name != "" %}
-          <span class="label label--small lg:label--large mt--2">{{ t_best }}: {{ best_label }}</span>
-        {% endif %}
-        {% if tomorrow_ok %}<div class="hidden lg:portrait:visible w--full mt--4"><span class="title title--small">{{ t_tomorrow }} · {{ t_forecast }}</span>{% render "evo_chart", intervals: tomorrow, t_now_short: t_now_short, track: 14, compact: true %}</div>{% endif %}
+        {% render "evo_chart", intervals: today, t_now_short: t_now_short, t_unit: t_unit, track: 26, track_p: 30, track_lg: 34, compact: true %}
+        {% if tomorrow_ok %}<div class="hidden lg:portrait:visible w--full text--center mt--5"><span class="title title--small">{{ t_tomorrow }} · {{ t_forecast }}</span>{% render "evo_chart", intervals: tomorrow, t_now_short: t_now_short, t_unit: t_unit, track: 14, compact: true %}</div>{% endif %}
       {% else %}
         <span class="label label--small">{{ t_no_history }}</span>
       {% endif %}

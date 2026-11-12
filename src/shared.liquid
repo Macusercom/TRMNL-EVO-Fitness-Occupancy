@@ -17,6 +17,7 @@
   {% assign t_actual = "actual" %}
   {% assign t_forecast = "forecast" %}
   {% assign t_best = "Quietest" %}
+  {% assign t_unit = " h" %}
   {% assign t_peak = "Busiest" %}
   {% assign t_s1 = "Quiet" %}
   {% assign t_s2 = "Moderate" %}
@@ -37,6 +38,7 @@
   {% assign t_actual = "réel" %}
   {% assign t_forecast = "prévision" %}
   {% assign t_best = "Le plus calme" %}
+  {% assign t_unit = " h" %}
   {% assign t_peak = "Le plus fréquenté" %}
   {% assign t_s1 = "Calme" %}
   {% assign t_s2 = "Modéré" %}
@@ -57,6 +59,7 @@
   {% assign t_actual = "gemessen" %}
   {% assign t_forecast = "Prognose" %}
   {% assign t_best = "Am ruhigsten" %}
+  {% assign t_unit = " Uhr" %}
   {% assign t_peak = "Am vollsten" %}
   {% assign t_s1 = "Ruhig" %}
   {% assign t_s2 = "Mäßig besucht" %}
@@ -130,9 +133,9 @@
     {% endif %}
   {% endfor %}
 {% endif %}
-{% assign best_label = best_name | replace: "-", "–" %}
+{% assign best_label = best_name | replace: "-", "–" | append: t_unit %}
 {% if best_is_tomorrow %}{% assign best_label = t_tomorrow | append: " " | append: best_label %}{% endif %}
-{% assign peak_label = peak_name | replace: "-", "–" %}
+{% assign peak_label = peak_name | replace: "-", "–" | append: t_unit %}
 
 {% assign updated = "now" | date: "%s" | plus: trmnl.user.utc_offset | date: "%H:%M" %}
 {% assign t_instance = "EVO Fitness · " | append: t_updated | append: " " | append: updated %}
@@ -140,33 +143,62 @@
 {% comment %} Bar chart of six time slots, built from framework utilities only.
   Heights use h--[Ncqh] (percent of the layout height), so the chart scales with
   the screen. `track` is the full bar height in cqh. Bars are relative indicators
-  without numbers; the running slot is only marked, as EVO's figure for an
-  unfinished slot is not comparable to finished ones. {% endcomment %}
+  without numbers. The running slot is drawn as EVO's own page draws it: at
+  EVO's figure for the slot so far, which is close to the live count and so
+  usually lower than finished slots. Each slot sits in an outlined box whose
+  full height is 100 %, or the busiest slot (then labelled) when a gym runs above 100 %. {% endcomment %}
 {% template evo_chart %}
 {% assign scale = 100 %}
 {% for iv in intervals %}
   {% assign p = iv.percentageUsed | round %}
   {% if iv.status != "current" and p > scale %}{% assign scale = p %}{% endif %}
 {% endfor %}
+{% if scale > 100 %}<div class="w--full text--right"><span class="label label--small">{{ scale }}%</span></div>{% endif %}
 <div class="grid grid--cols-6 gap--xsmall w--full">
   {% for iv in intervals %}
     {% assign bar = iv.percentageUsed | times: track | divided_by: scale | round %}
     {% if bar > track %}{% assign bar = track %}{% endif %}
     {% if bar < 1 %}{% assign bar = 1 %}{% endif %}
-    {% if iv.status == "current" %}{% assign bar = 1 %}{% endif %}
     {% assign rest = track | minus: bar %}
+    {% comment %} Optional other sizes: track_p for small portrait screens (OG portrait),
+      track_lg for large landscape screens (TRMNL X). Large portrait keeps the base size. {% endcomment %}
+    {% assign rest_cls = "h--[" | append: rest | append: "cqh]" %}
+    {% assign bar_cls = "h--[" | append: bar | append: "cqh]" %}
+    {% if track_p %}
+      {% assign bar_p = iv.percentageUsed | times: track_p | divided_by: scale | round %}
+      {% if bar_p > track_p %}{% assign bar_p = track_p %}{% endif %}
+      {% if bar_p < 1 %}{% assign bar_p = 1 %}{% endif %}
+      {% assign rest_p = track_p | minus: bar_p %}
+      {% assign rest_cls = rest_cls | append: " portrait:h--[" | append: rest_p | append: "cqh]" %}
+      {% assign bar_cls = bar_cls | append: " portrait:h--[" | append: bar_p | append: "cqh]" %}
+    {% endif %}
+    {% if track_lg %}
+      {% assign bar_lg = iv.percentageUsed | times: track_lg | divided_by: scale | round %}
+      {% if bar_lg > track_lg %}{% assign bar_lg = track_lg %}{% endif %}
+      {% if bar_lg < 1 %}{% assign bar_lg = 1 %}{% endif %}
+      {% assign rest_lg = track_lg | minus: bar_lg %}
+      {% assign rest_cls = rest_cls | append: " lg:h--[" | append: rest_lg | append: "cqh]" %}
+      {% assign bar_cls = bar_cls | append: " lg:h--[" | append: bar_lg | append: "cqh]" %}
+    {% endif %}
+    {% if track_p or track_lg %}
+      {% assign rest_cls = rest_cls | append: " lg:portrait:h--[" | append: rest | append: "cqh]" %}
+      {% assign bar_cls = bar_cls | append: " lg:portrait:h--[" | append: bar | append: "cqh]" %}
+    {% endif %}
     {% assign shade = "bg--black" %}
     {% if iv.status == "future" %}{% assign shade = "bg--gray-45" %}{% endif %}
+    {% if iv.status == "current" %}{% assign shade = "bg--gray-25" %}{% endif %}
     <div>
-      <div class="h--[{{ rest }}cqh]"></div>
-      <div class="w--full h--[{{ bar }}cqh] {{ shade }}"></div>
+      <div class="outline">
+        <div class="{{ rest_cls }}"></div>
+        <div class="w--full {{ bar_cls }} {{ shade }}"></div>
+      </div>
       <div class="text--center">
         {% if iv.status == "current" %}
-          <span class="label label--small label--underline">{{ t_now_short }}</span>
+          <span class="label label--small label--inverted">{{ t_now_short }}</span>
         {% elsif compact %}
-          <span class="label label--small">{{ iv.name | slice: 0, 2 }}</span>
+          <span class="label label--small">{{ iv.name | slice: 0, 2 }}{{ t_unit }}</span>
         {% else %}
-          <span class="label label--small">{{ iv.name | replace: "-", "–" }}</span>
+          <span class="label label--small">{{ iv.name | replace: "-", "–" }}{{ t_unit }}</span>
         {% endif %}
       </div>
     </div>

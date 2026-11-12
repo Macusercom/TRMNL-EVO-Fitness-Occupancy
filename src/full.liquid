@@ -2,14 +2,14 @@
   {% if has_live == false %}
     {% render "evo_notice", glyph: "!", title: notice_title, sub: notice_sub %}
   {% else %}
-    <div class="grid grid--cols-5 gap--large stretch-x lg:portrait:grid--cols-1 lg:portrait:gap--medium">
-      <div class="col--span-2 lg:portrait:col--span-1 flex flex--col gap--small">
+    <div class="grid grid--cols-5 gap--large stretch-x portrait:grid--cols-1 portrait:gap--medium">
+      <div class="col--span-2 portrait:col--span-1 flex flex--col gap--small">
         <span class="label">{{ t_now }}</span>
-        <span class="value value--xxxlarge lg:value--mega lg:portrait:value--xxxlarge value--tnums" data-value-fit="true">{{ live_pct }}%</span>
+        <span class="value value--xxxlarge lg:value--mega portrait:value--xxxlarge lg:portrait:value--xxxlarge value--tnums" data-value-fit="true">{{ live_pct }}%</span>
         <span class="title">{{ status }}</span>
         <span class="label">{{ live_now }} / {{ live_cap }} {{ t_people }}</span>
-        <div class="lg:portrait:hidden">{% render "evo_meter", pct: bar_pct, width: 37 %}</div>
-        <div class="hidden lg:portrait:visible">{% render "evo_meter", pct: bar_pct, width: 96 %}</div>
+        <div class="portrait:hidden">{% render "evo_meter", pct: bar_pct, width: 37 %}</div>
+        <div class="hidden portrait:visible">{% render "evo_meter", pct: bar_pct, width: 96 %}</div>
         {% if best_name != "" %}
           <div class="item mt--2">
             <div class="meta"></div>
@@ -30,16 +30,16 @@
         {% endif %}
       </div>
 
-      <div class="col--span-3 lg:portrait:col--span-1 flex flex--col gap--small">
+      <div class="col--span-3 portrait:col--span-1 flex flex--col gap--small">
         {% if today_ok %}
           <div class="flex flex--row flex--center-y flex--between stretch-x">
             <span class="title title--small">{{ t_today }}</span>
             {% render "evo_legend", t_actual: t_actual, t_forecast: t_forecast %}
           </div>
-          {% render "evo_chart", intervals: today, t_now_short: t_now_short, track: 36, compact: false %}
+          {% render "evo_chart", intervals: today, t_now_short: t_now_short, t_unit: t_unit, track: 36, track_p: 27, track_lg: 44, compact: false %}
           {% if tomorrow_ok %}
-            <span class="title title--small mt--2">{{ t_tomorrow }} · {{ t_forecast }}</span>
-            {% render "evo_chart", intervals: tomorrow, t_now_short: t_now_short, track: 16, compact: false %}
+            <div class="w--full text--left mt--2"><span class="title title--small">{{ t_tomorrow }} · {{ t_forecast }}</span></div>
+            {% render "evo_chart", intervals: tomorrow, t_now_short: t_now_short, t_unit: t_unit, track: 16, track_p: 11, track_lg: 22, compact: false %}
           {% endif %}
         {% else %}
           {% render "evo_notice", glyph: "–", title: t_no_history, sub: nil %}
