@@ -4,7 +4,7 @@ no_screen_padding: 'no'
 dark_mode: 'no'
 static_data: ''
 polling_verb: get
-framework_version:
+framework_version: latest
 serverless_language:
 refresh_interval_floor:
 polling_url: |-
@@ -121,4 +121,4 @@ custom_fields:
   - Français: fr
 name: EVO Fitness Occupancy
 description: Live occupancy of your EVO gym
-refresh_interval: 15
+refresh_interval: 60

@@ -25,7 +25,7 @@ To show several gyms on one screen, add the plug-in once per gym and combine the
 
 ## Data source
 
-The plug-in polls the same JSON endpoints as EVO's public occupancy pages ([visits.evofitness.at](https://visits.evofitness.at), .de, .ch) every 15 minutes:
+The plug-in polls the same JSON endpoints as EVO's public occupancy pages ([visits.evofitness.at](https://visits.evofitness.at), .de, .ch) once an hour, the fastest refresh rate TRMNL offers for this plugin:
 
 ```
 /api/v1/locations/{id}/current                    live headcount and capacity
