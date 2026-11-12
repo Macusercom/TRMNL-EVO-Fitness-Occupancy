@@ -6,19 +6,13 @@
       <span class="label">{{ t_now }}</span>
       <span class="value value--xxxlarge value--tnums">{{ live_pct }}%</span>
       <span class="title title--small">{{ status }}</span>
-      <div class="progress-bar stretch-x">
-        <div class="content">
-          <span class="label label--small">{{ live_now }} / {{ live_cap }} {{ t_people }}</span>
-        </div>
-        <div class="track">
-          <div class="fill" style="width: {{ bar_pct }}%"></div>
-        </div>
-      </div>
+      <span class="label label--small">{{ live_now }} / {{ live_cap }} {{ t_people }}</span>
+      {% render "evo_meter", pct: bar_pct, width: 96 %}
     </div>
     <div class="flex flex--col gap--xsmall stretch-x">
       {% if today_ok %}
         <span class="title title--small">{{ t_today }}</span>
-        {% render "evo_chart", intervals: today, t_now_short: t_now_short, height: 120, compact: true %}
+        {% render "evo_chart", intervals: today, t_now_short: t_now_short, track: 26, compact: true %}
         {% if best_name != "" %}
           <span class="label label--small mt--2">{{ t_best }}: {{ best_label }}</span>
         {% endif %}

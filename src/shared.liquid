@@ -137,45 +137,38 @@
 {% assign updated = "now" | date: "%s" | plus: trmnl.user.utc_offset | date: "%H:%M" %}
 {% assign t_instance = "EVO Fitness · " | append: t_updated | append: " " | append: updated %}
 
-<style>
-  .evo-chart { display: flex; align-items: flex-end; gap: 6px; width: 100%; }
-  .evo-col { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; }
-  .evo-track { width: 100%; display: flex; align-items: flex-end; justify-content: center; border-bottom: 2px solid #000; }
-  .evo-fill { width: 100%; box-sizing: border-box; border: 2px solid #000; border-bottom: 0; }
-  .evo-h-70 { height: 70px; } .evo-h-90 { height: 90px; } .evo-h-120 { height: 120px; } .evo-h-140 { height: 140px; }
-  /* larger screens (TRMNL X): taller charts so the extra height is used */
-  .screen--lg .evo-h-70 { height: 130px; } .screen--lg .evo-h-90 { height: 170px; }
-  .screen--lg .evo-h-120 { height: 230px; } .screen--lg .evo-h-140 { height: 260px; }
-  .evo-key { display: inline-block; width: 12px; height: 12px; box-sizing: border-box; border: 2px solid #000; }
-</style>
-
-{% comment %} Bar chart of six time slots. Bars are relative indicators without
-  numbers: EVO's slot figures run well above the live percentage for the same
-  period, so they are not printed next to it. The running slot is only marked,
-  as its figure is not comparable to finished slots. {% endcomment %}
+{% comment %} Bar chart of six time slots, built from framework utilities only.
+  Heights use h--[Ncqh] (percent of the layout height), so the chart scales with
+  the screen. `track` is the full bar height in cqh. Bars are relative indicators
+  without numbers; the running slot is only marked, as EVO's figure for an
+  unfinished slot is not comparable to finished ones. {% endcomment %}
 {% template evo_chart %}
-{% comment %} full height = 100 %, or the busiest slot when a gym runs above 100 % {% endcomment %}
 {% assign scale = 100 %}
 {% for iv in intervals %}
   {% assign p = iv.percentageUsed | round %}
   {% if iv.status != "current" and p > scale %}{% assign scale = p %}{% endif %}
 {% endfor %}
-<div class="evo-chart">
+<div class="grid grid--cols-6 gap--xsmall w--full">
   {% for iv in intervals %}
-    {% assign h = iv.percentageUsed | times: 100 | divided_by: scale | round %}
-    {% if h > 100 %}{% assign h = 100 %}{% endif %}
-    {% if h < 2 %}{% assign h = 2 %}{% endif %}
+    {% assign bar = iv.percentageUsed | times: track | divided_by: scale | round %}
+    {% if bar > track %}{% assign bar = track %}{% endif %}
+    {% if bar < 1 %}{% assign bar = 1 %}{% endif %}
+    {% if iv.status == "current" %}{% assign bar = 1 %}{% endif %}
+    {% assign rest = track | minus: bar %}
     {% assign shade = "bg--black" %}
-    {% if iv.status == "future" %}{% assign shade = "bg--gray-60" %}{% endif %}
-    <div class="evo-col">
-      <div class="evo-track evo-h-{{ height }}">
+    {% if iv.status == "future" %}{% assign shade = "bg--gray-45" %}{% endif %}
+    <div>
+      <div class="h--[{{ rest }}cqh]"></div>
+      <div class="w--full h--[{{ bar }}cqh] {{ shade }}"></div>
+      <div class="text--center">
         {% if iv.status == "current" %}
-          <span class="label label--small label--underline evo-now">{{ t_now_short }}</span>
+          <span class="label label--small label--underline">{{ t_now_short }}</span>
+        {% elsif compact %}
+          <span class="label label--small">{{ iv.name | slice: 0, 2 }}</span>
         {% else %}
-          <div class="evo-fill {{ shade }}" style="height: {{ h }}%"></div>
+          <span class="label label--small">{{ iv.name | replace: "-", "–" }}</span>
         {% endif %}
       </div>
-      <span class="label label--small">{% if compact %}{{ iv.name | slice: 0, 2 }}{% else %}{{ iv.name | replace: "-", "–" }}{% endif %}</span>
     </div>
   {% endfor %}
 </div>
@@ -183,8 +176,17 @@
 
 {% template evo_legend %}
 <div class="flex flex--row flex--center-y gap--small">
-  <span class="evo-key bg--black"></span><span class="label label--small">{{ t_actual }}</span>
-  <span class="evo-key bg--gray-60"></span><span class="label label--small">{{ t_forecast }}</span>
+  <div class="w--[12px] h--[12px] bg--black"></div><span class="label label--small">{{ t_actual }}</span>
+  <div class="w--[12px] h--[12px] bg--gray-45"></div><span class="label label--small">{{ t_forecast }}</span>
+</div>
+{% endtemplate %}
+
+{% comment %} Occupancy bar. `width` is the full bar width in cqw (percent of the layout width). {% endcomment %}
+{% template evo_meter %}
+{% assign fill = pct | times: width | divided_by: 100 | round %}
+{% if fill < 1 %}{% assign fill = 1 %}{% endif %}
+<div class="w--[{{ width }}cqw] bg--gray-65 rounded--small">
+  <div class="w--[{{ fill }}cqw] h--[3cqh] bg--black rounded--small"></div>
 </div>
 {% endtemplate %}
 
@@ -198,7 +200,7 @@
 
 {% template evo_title_bar %}
 <div class="title_bar">
-  <img class="image" src="{{ icon }}">
+  <img class="image image-dither" src="{{ icon }}">
   <span class="title">{{ title }}</span>
   <span class="instance">{{ instance }}</span>
 </div>

@@ -7,14 +7,8 @@
         <span class="label">{{ t_now }}</span>
         <span class="value value--xxxlarge lg:value--mega value--tnums">{{ live_pct }}%</span>
         <span class="title">{{ status }}</span>
-        <div class="progress-bar progress-bar--large stretch-x">
-          <div class="content">
-            <span class="label">{{ live_now }} / {{ live_cap }} {{ t_people }}</span>
-          </div>
-          <div class="track">
-            <div class="fill" style="width: {{ bar_pct }}%"></div>
-          </div>
-        </div>
+        <span class="label">{{ live_now }} / {{ live_cap }} {{ t_people }}</span>
+        {% render "evo_meter", pct: bar_pct, width: 37 %}
         {% if best_name != "" %}
           <div class="item mt--2">
             <div class="meta"></div>
@@ -41,10 +35,10 @@
             <span class="title title--small">{{ t_today }}</span>
             {% render "evo_legend", t_actual: t_actual, t_forecast: t_forecast %}
           </div>
-          {% render "evo_chart", intervals: today, t_now_short: t_now_short, height: 140, compact: false %}
+          {% render "evo_chart", intervals: today, t_now_short: t_now_short, track: 36, compact: false %}
           {% if tomorrow_ok %}
             <span class="title title--small mt--2">{{ t_tomorrow }} · {{ t_forecast }}</span>
-            {% render "evo_chart", intervals: tomorrow, t_now_short: t_now_short, height: 70, compact: false %}
+            {% render "evo_chart", intervals: tomorrow, t_now_short: t_now_short, track: 16, compact: false %}
           {% endif %}
         {% else %}
           {% render "evo_notice", glyph: "–", title: t_no_history, sub: nil %}

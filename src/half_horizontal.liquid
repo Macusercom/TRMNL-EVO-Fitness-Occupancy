@@ -13,7 +13,7 @@
       </div>
       <div class="col--span-3 flex flex--col gap--xsmall">
         {% if today_ok %}
-          {% render "evo_chart", intervals: today, t_now_short: t_now_short, height: 90, compact: false %}
+          {% render "evo_chart", intervals: today, t_now_short: t_now_short, track: 45, compact: false %}
         {% else %}
           <span class="label label--small">{{ t_no_history }}</span>
         {% endif %}
