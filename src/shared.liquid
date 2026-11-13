@@ -193,7 +193,11 @@
         <div class="w--full {{ bar_cls }} {{ shade }}"></div>
       </div>
       <div class="text--center">
-        {% if iv.status == "current" %}
+        {% if iv.status == "current" and compact %}
+          {% comment %} OG portrait columns are too narrow for the word: the inverted hour marks the slot there {% endcomment %}
+          <div class="portrait:hidden lg:portrait:block"><span class="label label--small label--inverted">{{ t_now_short }}</span></div>
+          <div class="hidden portrait:block lg:portrait:hidden"><span class="label label--small label--inverted">{{ iv.name | slice: 0, 2 }}</span></div>
+        {% elsif iv.status == "current" %}
           <span class="label label--small label--inverted">{{ t_now_short }}</span>
         {% elsif compact %}
           <span class="label label--small">{{ iv.name | slice: 0, 2 }}{{ t_unit }}</span>
@@ -232,7 +236,7 @@
 
 {% template evo_title_bar %}
 <div class="title_bar">
-  <img class="image image-dither" src="{{ icon }}">
+  <img class="image image--adaptive" src="{{ icon }}">
   <span class="title">{{ title }}</span>
   <span class="instance">{{ instance }}</span>
 </div>

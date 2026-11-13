@@ -1,0 +1,60 @@
+{
+    "id": "ba765872-0969-4eeb-9a24-5384d78c97b1",
+    "name": "EVO Bruno-Marek-Allee",
+    "intervals": [
+        {
+            "begin": 6,
+            "end": 10,
+            "name": "06-10",
+            "maxCapacity": 19200,
+            "onsiteMinutes": 5935.5,
+            "percentageUsed": 30.9140625,
+            "status": "future"
+        },
+        {
+            "begin": 10,
+            "end": 12,
+            "name": "10-12",
+            "maxCapacity": 9600,
+            "onsiteMinutes": 4593.5,
+            "percentageUsed": 47.848958333333336,
+            "status": "future"
+        },
+        {
+            "begin": 12,
+            "end": 15,
+            "name": "12-15",
+            "maxCapacity": 14400,
+            "onsiteMinutes": 6307.5,
+            "percentageUsed": 43.802083333333336,
+            "status": "future"
+        },
+        {
+            "begin": 15,
+            "end": 17,
+            "name": "15-17",
+            "maxCapacity": 9600,
+            "onsiteMinutes": 3861,
+            "percentageUsed": 40.21875,
+            "status": "future"
+        },
+        {
+            "begin": 17,
+            "end": 20,
+            "name": "17-20",
+            "maxCapacity": 14400,
+            "onsiteMinutes": 5896,
+            "percentageUsed": 40.94444444444444,
+            "status": "future"
+        },
+        {
+            "begin": 20,
+            "end": 24,
+            "name": "20-24",
+            "maxCapacity": 19200,
+            "onsiteMinutes": 5489.5,
+            "percentageUsed": 28.591145833333332,
+            "status": "future"
+        }
+    ]
+}

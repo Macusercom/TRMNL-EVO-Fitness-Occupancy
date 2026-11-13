@@ -51,12 +51,15 @@ export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
 gem install trmnl_preview
 trmnlp serve      # http://localhost:4567
 trmnlp lint       # same gate as CI
+trmnlp test       # same gate as CI; needs Firefox and ImageMagick 7
 trmnlp build --png
 ```
 
 Custom field values for the local server are preset in `.trmnlp.yml`, which is not uploaded to TRMNL. It lists gym IDs for trying the Swiss and the German (live-only) case.
 
-Every push to `main` runs `trmnlp lint`. Once `src/settings.yml` contains the plugin `id` (written by the first manual `trmnlp push`), the workflow also runs `trmnlp push`, which needs the `TRMNL_API_KEY` repository secret. From then on, edit the plug-in here rather than in the TRMNL web editor, otherwise changes are overwritten on the next push.
+The tests in `tests/` draw every view on the TRMNL OG and TRMNL X, in landscape and portrait, from EVO answers recorded in `tests/fixtures/`: an Austrian gym, a German gym with unusable slot data, a full gym and no gym selected. They check for overflow, overlapping text, dark mode and failing API answers, and that every setting option draws. Add `--report report` for a page of every screen drawn.
+
+Every push to `main` runs `trmnlp lint` and `trmnlp test`, and only when both pass `trmnlp push`, which needs the `TRMNL_API_KEY` repository secret. Edit the plug-in here rather than in the TRMNL web editor, otherwise changes are overwritten on the next push.
 
 ## Credits
 Data provided by <a href="https://www.evofitness.at">EVO Fitness</a>

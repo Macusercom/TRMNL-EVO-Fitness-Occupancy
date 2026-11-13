@@ -1,0 +1,60 @@
+{
+    "id": "13cbafa0-8b29-4aa8-bed7-34e972caa165",
+    "name": "EVO Alexanderplatz",
+    "intervals": [
+        {
+            "begin": 6,
+            "end": 10,
+            "name": "06-10",
+            "maxCapacity": 8400,
+            "onsiteMinutes": 241568,
+            "percentageUsed": 2875.809523809524,
+            "status": "future"
+        },
+        {
+            "begin": 10,
+            "end": 12,
+            "name": "10-12",
+            "maxCapacity": 4200,
+            "onsiteMinutes": 125670.5,
+            "percentageUsed": 2992.154761904762,
+            "status": "future"
+        },
+        {
+            "begin": 12,
+            "end": 15,
+            "name": "12-15",
+            "maxCapacity": 6300,
+            "onsiteMinutes": 195399.5,
+            "percentageUsed": 3101.579365079365,
+            "status": "future"
+        },
+        {
+            "begin": 15,
+            "end": 17,
+            "name": "15-17",
+            "maxCapacity": 4200,
+            "onsiteMinutes": 134303,
+            "percentageUsed": 3197.690476190476,
+            "status": "future"
+        },
+        {
+            "begin": 17,
+            "end": 20,
+            "name": "17-20",
+            "maxCapacity": 6300,
+            "onsiteMinutes": 207493.5,
+            "percentageUsed": 3293.547619047619,
+            "status": "future"
+        },
+        {
+            "begin": 20,
+            "end": 24,
+            "name": "20-24",
+            "maxCapacity": 8400,
+            "onsiteMinutes": 281102.5,
+            "percentageUsed": 3346.458333333333,
+            "status": "future"
+        }
+    ]
+}

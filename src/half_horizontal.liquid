@@ -4,7 +4,7 @@
   {% else %}
     <div class="grid grid--cols-5 gap--large stretch-x">
       <div class="col--span-2 flex flex--col flex--center-y gap--xsmall">
-        <span class="value value--xxlarge value--tnums">{{ live_pct }}%</span>
+        <span class="value value--xxlarge value--tnums" data-value-fit="true">{{ live_pct }}%</span>
         <span class="title title--small">{{ status }}</span>
         <span class="label label--small lg:label--large">{{ live_now }} / {{ live_cap }} {{ t_people }}</span>
         {% if best_name != "" %}

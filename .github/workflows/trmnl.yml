@@ -3,6 +3,11 @@ on:
   pull_request:
   push:
     branches: [main]
+  workflow_dispatch:
+
+env:
+  # The trmnlp image the tests run in. Pin a release (e.g. trmnl/trmnlp:v0.34.1) to keep runs repeatable.
+  TRMNLP_IMAGE: trmnl/trmnlp:latest
 
 jobs:
   lint:
@@ -15,23 +20,33 @@ jobs:
       - run: gem install trmnl_preview
       - run: trmnlp lint
 
-  push:
-    needs: lint
-    if: github.ref == 'refs/heads/main'
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      # The plugin id is written to src/settings.yml by the first manual
-      # `trmnlp push`. Until then there is nothing to update, so skip.
-      - id: plugin
-        run: grep -q '^id:' src/settings.yml && echo "exists=true" >> "$GITHUB_OUTPUT" || echo "exists=false" >> "$GITHUB_OUTPUT"
+      - name: trmnlp test
+        run: >
+          docker run --rm -e CI=true -e GITHUB_STEP_SUMMARY=/summary.md
+          -v "$PWD":/plugin -v "$GITHUB_STEP_SUMMARY":/summary.md "$TRMNLP_IMAGE"
+          test --report report
+      # Every screen the tests drew, for a look when something fails.
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trmnlp-report
+          path: report
+
+  push:
+    # Deploys to TRMNL only when lint and tests pass.
+    needs: [lint, test]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
       - uses: ruby/setup-ruby@v1
-        if: steps.plugin.outputs.exists == 'true'
         with:
           ruby-version: "4.0"
-      - if: steps.plugin.outputs.exists == 'true'
-        run: gem install trmnl_preview
-      - if: steps.plugin.outputs.exists == 'true'
-        run: trmnlp push --force
+      - run: gem install trmnl_preview
+      - run: trmnlp push --force
         env:
           TRMNL_API_KEY: ${{ secrets.TRMNL_API_KEY }}
