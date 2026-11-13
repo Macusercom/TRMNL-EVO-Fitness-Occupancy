@@ -20,6 +20,7 @@ To show several gyms on one screen, add the plug-in once per gym and combine the
 ## Limitations
 
 - **German gyms show live occupancy only.** EVO's time-slot data for all German gyms is currently unusable (values of several thousand percent), so the charts are hidden. The plug-in detects this per gym, and the charts appear on their own once EVO's data is sane again.
+- **German percentages can exceed 100%.** EVO reports a capacity of 35 places for every German gym, which is almost certainly not the real size, so the live percentage is based on that figure (74 people show as 211%). The headcount next to it is correct. Once EVO publishes real capacities, the percentage is right without a plug-in update.
 - The chart bars carry no numbers. EVO's figures for finished time slots run well above the live count for the same period (a slot reported as 61% had about 17 of 80 people counted live), so the bars only show which slots are busier than others. Each slot sits in an outlined box whose full height is 100%. The running slot is drawn at EVO's figure so far, which is close to the live count and therefore usually lower than its neighbours.
 - The data comes from an undocumented endpoint and may change without notice.
 
