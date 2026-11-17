@@ -20,7 +20,7 @@
       </div>
       <div class="col--span-3 flex flex--col flex--center-y gap--xsmall">
         {% if today_ok %}
-          {% render "evo_chart", intervals: today, t_now_short: t_now_short, t_unit: t_unit, track: 56, compact: false %}
+          {% render "evo_chart", intervals: today, clock: clock_h, t_now_short: t_now_short, t_unit: t_unit, track: 56, compact: false %}
         {% else %}
           <span class="label label--small">{{ t_no_history }}</span>
         {% endif %}

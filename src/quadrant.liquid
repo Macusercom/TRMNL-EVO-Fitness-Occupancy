@@ -15,7 +15,7 @@
     {% if best_name != "" %}
       <span class="label label--small lg:label--large">{{ t_best }}: {{ best_label }}</span>
     {% endif %}
-    {% if today_ok %}<div class="w--full portrait:mt--4 lg:mt--4">{% render "evo_chart", intervals: today, t_now_short: t_now_short, t_unit: t_unit, track: 22, track_p: 26, track_lg: 36, compact: true %}</div>{% endif %}
+    {% if today_ok %}<div class="w--full portrait:mt--4 lg:mt--4">{% render "evo_chart", intervals: today, clock: clock_h, t_now_short: t_now_short, t_unit: t_unit, track: 22, track_p: 26, track_lg: 36, compact: true %}</div>{% endif %}
   {% endif %}
 </div>
 

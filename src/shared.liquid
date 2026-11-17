@@ -90,6 +90,22 @@
 {% assign notice_sub = t_error_sub %}
 {% if gym_id == "" %}{% assign notice_title = t_select %}{% assign notice_sub = t_select_sub %}{% endif %}
 
+{% comment %} ---------- clock ----------
+  TRMNL redraws the screen more often than it fetches new data (at most hourly), so
+  "Stand" shows when the data was fetched, and the running slot follows the clock at
+  drawing time, not EVO's status from the fetch. {% endcomment %}
+{% assign tz_off = trmnl.user.utc_offset | default: 0 %}
+{% assign now_s = "now" | date: "%s" | plus: 0 %}
+{% assign fetched_s = trmnl.plugin_settings.data_fetched_utc | default: now_s | plus: 0 %}
+{% if fetched_s > now_s %}{% assign fetched_s = now_s %}{% endif %}
+{% assign now_local = now_s | plus: tz_off %}
+{% assign fetched_local = fetched_s | plus: tz_off %}
+{% assign clock_h = now_local | date: "%H" | plus: 0 %}
+{% assign now_day = now_local | date: "%Y%m%d" %}
+{% assign fetched_day = fetched_local | date: "%Y%m%d" %}
+{% comment %} data from the day before: every slot of it is over {% endcomment %}
+{% if now_day != fetched_day %}{% assign clock_h = clock_h | plus: 24 %}{% endif %}
+
 {% comment %} ---------- time slots (IDX_1 = today, IDX_2 = tomorrow) ----------
   Values above 250 % mean EVO's slot data is broken for this gym (all German
   gyms at the time of writing) - the charts are hidden then.
@@ -117,10 +133,12 @@
 {% if today_ok %}
   {% for iv in today %}
     {% assign p = iv.percentageUsed | round %}
-    {% if iv.status == "future" and p > 0 and p < best_pct %}
+    {% if iv.begin > clock_h and p > 0 and p < best_pct %}
       {% assign best_pct = p %}{% assign best_name = iv.name %}
     {% endif %}
-    {% if iv.status != "current" and p > peak_pct %}
+    {% assign running = false %}
+    {% if iv.begin <= clock_h and clock_h < iv.end %}{% assign running = true %}{% endif %}
+    {% if iv.status != "current" and running == false and p > peak_pct %}
       {% assign peak_pct = p %}{% assign peak_name = iv.name %}
     {% endif %}
   {% endfor %}
@@ -137,7 +155,7 @@
 {% if best_is_tomorrow %}{% assign best_label = t_tomorrow | append: " " | append: best_label %}{% endif %}
 {% assign peak_label = peak_name | replace: "-", "–" | append: t_unit %}
 
-{% assign updated = "now" | date: "%s" | plus: trmnl.user.utc_offset | date: "%H:%M" %}
+{% assign updated = fetched_local | date: "%H:%M" %}
 {% assign t_instance = "EVO Fitness · " | append: t_updated | append: " " | append: updated %}
 
 {% comment %} Bar chart of six time slots, built from framework utilities only.
@@ -184,6 +202,14 @@
       {% assign rest_cls = rest_cls | append: " lg:portrait:h--[" | append: rest | append: "cqh]" %}
       {% assign bar_cls = bar_cls | append: " lg:portrait:h--[" | append: bar | append: "cqh]" %}
     {% endif %}
+    {% comment %} The bar shows EVO's data as fetched; the "now" marker follows `clock` (hour at drawing time)
+      when it is passed, so a slot that was running at the last fetch but is over by now is not marked. {% endcomment %}
+    {% assign is_now = false %}
+    {% if clock %}
+      {% if iv.begin <= clock and clock < iv.end %}{% assign is_now = true %}{% endif %}
+    {% elsif iv.status == "current" %}
+      {% assign is_now = true %}
+    {% endif %}
     {% assign shade = "bg--black" %}
     {% if iv.status == "future" %}{% assign shade = "bg--gray-45" %}{% endif %}
     {% if iv.status == "current" %}{% assign shade = "bg--gray-25" %}{% endif %}
@@ -193,11 +219,11 @@
         <div class="w--full {{ bar_cls }} {{ shade }}"></div>
       </div>
       <div class="text--center">
-        {% if iv.status == "current" and compact %}
+        {% if is_now and compact %}
           {% comment %} OG portrait columns are too narrow for the word: the inverted hour marks the slot there {% endcomment %}
           <div class="portrait:hidden lg:portrait:block"><span class="label label--small label--inverted">{{ t_now_short }}</span></div>
           <div class="hidden portrait:block lg:portrait:hidden"><span class="label label--small label--inverted">{{ iv.name | slice: 0, 2 }}</span></div>
-        {% elsif iv.status == "current" %}
+        {% elsif is_now %}
           <span class="label label--small label--inverted">{{ t_now_short }}</span>
         {% elsif compact %}
           <span class="label label--small">{{ iv.name | slice: 0, 2 }}{{ t_unit }}</span>

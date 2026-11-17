@@ -50,6 +50,13 @@ RSpec.describe 'EVO Fitness Occupancy' do
       expect(screen).to have_css('.outline', count: 12)
     end
 
+    # TRMNL redraws the screen more often than it fetches data: at 16:21 the data can still be from before
+    # 15:00, when EVO marked 12-15 as running. The marker must follow the clock, not the old status.
+    it 'marks the slot running at drawing time when the data is older' do
+      screen = trmnl.render(view: 'half_horizontal', mocks:, custom_fields:, now: '2026-11-13T16:21:00+01:00')
+      expect(screen).to have_text('jetzt').and(have_text('12–15 Uhr')).and(have_no_text('15–17 Uhr'))
+    end
+
     it 'shows the time slots with "Uhr" in German and "h" in English and French' do
       expect(trmnl.render(mocks:, custom_fields:, now:)).to have_text('20–24 Uhr')
       expect(trmnl.render(mocks:, custom_fields: custom_fields.merge('language' => 'en'), now:))
