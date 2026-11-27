@@ -4,7 +4,7 @@
   {% else %}
     <div class="grid grid--cols-5 gap--large stretch-x">
       <div class="col--span-2 flex flex--col flex--center-y gap--xsmall">
-        <span class="value value--xxlarge value--tnums" data-value-fit="true">{{ live_pct }}%</span>
+        <span class="value value--xxlarge lg:portrait:value--xxxlarge value--tnums" data-value-fit="true">{{ live_pct }}%</span>
         <span class="title title--small">{{ status }}</span>
         <span class="label label--small lg:label--large">{{ live_now }} / {{ live_cap }} {{ t_people }}</span>
         {% if best_name != "" %}
@@ -20,7 +20,7 @@
       </div>
       <div class="col--span-3 flex flex--col flex--center-y gap--xsmall">
         {% if today_ok %}
-          {% render "evo_chart", intervals: today, clock: clock_h, t_now_short: t_now_short, t_unit: t_unit, track: 56, compact: false %}
+          {% render "evo_chart", intervals: today, clock: clock_h, t_now_short: t_now_short, t_unit: t_unit, track: 56, track_lp: 76, compact: false %}
         {% else %}
           <span class="label label--small">{{ t_no_history }}</span>
         {% endif %}

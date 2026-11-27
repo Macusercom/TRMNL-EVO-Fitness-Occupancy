@@ -179,7 +179,8 @@
     {% if bar < 1 %}{% assign bar = 1 %}{% endif %}
     {% assign rest = track | minus: bar %}
     {% comment %} Optional other sizes: track_p for small portrait screens (OG portrait),
-      track_lg for large landscape screens (TRMNL X). Large portrait keeps the base size. {% endcomment %}
+      track_lg for large landscape screens and track_lp for large portrait screens (TRMNL X).
+      Without track_lp, large portrait keeps the base size. {% endcomment %}
     {% assign rest_cls = "h--[" | append: rest | append: "cqh]" %}
     {% assign bar_cls = "h--[" | append: bar | append: "cqh]" %}
     {% if track_p %}
@@ -198,7 +199,14 @@
       {% assign rest_cls = rest_cls | append: " lg:h--[" | append: rest_lg | append: "cqh]" %}
       {% assign bar_cls = bar_cls | append: " lg:h--[" | append: bar_lg | append: "cqh]" %}
     {% endif %}
-    {% if track_p or track_lg %}
+    {% if track_lp %}
+      {% assign bar_lp = iv.percentageUsed | times: track_lp | divided_by: scale | round %}
+      {% if bar_lp > track_lp %}{% assign bar_lp = track_lp %}{% endif %}
+      {% if bar_lp < 1 %}{% assign bar_lp = 1 %}{% endif %}
+      {% assign rest_lp = track_lp | minus: bar_lp %}
+      {% assign rest_cls = rest_cls | append: " lg:portrait:h--[" | append: rest_lp | append: "cqh]" %}
+      {% assign bar_cls = bar_cls | append: " lg:portrait:h--[" | append: bar_lp | append: "cqh]" %}
+    {% elsif track_p or track_lg %}
       {% assign rest_cls = rest_cls | append: " lg:portrait:h--[" | append: rest | append: "cqh]" %}
       {% assign bar_cls = bar_cls | append: " lg:portrait:h--[" | append: bar | append: "cqh]" %}
     {% endif %}
